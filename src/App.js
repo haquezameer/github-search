@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Search from "./components/Search";
 import RepoList from "./components/RepoList";
-import ActionBar from "./components/ActionBar";
 import Details from "./components/Details";
 
 import "./App.css";
@@ -50,10 +49,13 @@ class App extends Component {
           <Route
             exact
             path="/results"
-            render={() => <RepoList repos={this.state.repos} />}
+            render={() => (
+              <RepoList
+                repos={this.state.repos}
+                sortBySelected={this.sortBySelected}
+              />
+            )}
           />
-          {/* <ActionBar sortBySelected={this.sortBySelected} /> */}
-          {/*  */}
           <Route
             path="/results/details/:id"
             render={props => <Details {...props} repos={this.state.repos} />}
