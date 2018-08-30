@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Search from "./components/Search";
 import RepoList from "./components/RepoList";
 import ActionBar from "./components/ActionBar";
+import Details from "./components/Details";
 
 import "./App.css";
 
@@ -38,11 +40,26 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <Search searchRepos={this.searchRepos} />
-        <ActionBar sortBySelected={this.sortBySelected} />
-        <RepoList repos={this.state.repos} />
-      </div>
+      <Router>
+        <div className="App">
+          <Route
+            exact
+            path="/"
+            render={() => <Search searchRepos={this.searchRepos} />}
+          />
+          <Route
+            exact
+            path="/results"
+            render={() => <RepoList repos={this.state.repos} />}
+          />
+          {/* <ActionBar sortBySelected={this.sortBySelected} /> */}
+          {/*  */}
+          <Route
+            path="/results/details/:id"
+            render={props => <Details {...props} repos={this.state.repos} />}
+          />
+        </div>
+      </Router>
     );
   }
 }
