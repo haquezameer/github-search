@@ -15,6 +15,7 @@ class App extends Component {
       repos: []
     };
     this.searchRepos = this.searchRepos.bind(this);
+    this.sortBySelected = this.sortBySelected.bind(this);
   }
   searchRepos(query) {
     console.log(query);
@@ -26,11 +27,20 @@ class App extends Component {
       })
       .catch(err => console.log(err));
   }
+  sortBySelected(option) {
+    console.log(option);
+    const { repos } = this.state;
+    const sortarr = repos.sort((a, b) => {
+      return a[option] - b[option];
+    });
+    console.log(sortarr);
+    this.setState({ repos: sortarr });
+  }
   render() {
     return (
       <div className="App">
         <Search searchRepos={this.searchRepos} />
-        <ActionBar />
+        <ActionBar sortBySelected={this.sortBySelected} />
         <RepoList repos={this.state.repos} />
       </div>
     );

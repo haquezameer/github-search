@@ -1,6 +1,12 @@
 import React from "react";
 
-const RepoListItem = ({ repo }) => <div>{repo.full_name}</div>;
+const RepoListItem = ({ repo }) => (
+  <div>
+    <span>
+      {repo.full_name} {repo.stargazers_count}
+    </span>
+  </div>
+);
 
 const RepoList = ({ repos }) =>
   repos && repos.length ? (
