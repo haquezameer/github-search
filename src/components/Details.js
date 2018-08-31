@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardHeader, CardBody, ImageHeader } from "react-simple-card";
+import { Card, CardHeader, CardBody } from "react-simple-card";
 import { Grid, Row, Col } from "react-bootstrap";
 
 const Details = ({
@@ -31,7 +31,11 @@ const Details = ({
               <h3>Watchers: {repo.watchers_count}</h3>
               <h3>
                 Homepage:{" "}
-                <a target="_blank" href="http://jasny.github.io/bootstrap">
+                <a
+                  target="_blank"
+                  href="http://jasny.github.io/bootstrap"
+                  rel="noopener noreferrer"
+                >
                   {repo.homepage}
                 </a>
               </h3>

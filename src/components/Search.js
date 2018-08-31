@@ -12,7 +12,6 @@ import {
 import { connect } from "react-redux";
 
 import { setSearchTerm, getReposData } from "../actions/actioncreators";
-import history from "../history";
 
 class Search extends Component {
   constructor(props) {
