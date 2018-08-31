@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Col, Form, FormGroup, FormControl } from "react-bootstrap";
+import { connect } from "react-redux";
+
+import { sortRepos } from "../actions/actioncreators";
 
 const SORT_BY_STARS = "stargazers_count";
 const SORT_BY_FORKS = "forks_count";
@@ -19,8 +22,7 @@ class ActionBar extends Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state.selected);
-    this.props.sortBySelected(this.state.selected);
+    this.props.getSortedRepos(this.state.selected, this.props.repos);
   }
   render() {
     return (
@@ -47,4 +49,14 @@ class ActionBar extends Component {
   }
 }
 
-export default ActionBar;
+const mapStateToProps = state => ({ repos: state.repos });
+const mapDispatchToProps = dispatch => ({
+  getSortedRepos(field, repos) {
+    dispatch(sortRepos(field, repos));
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ActionBar);

@@ -1,4 +1,4 @@
-import { SET_SEARCH_TERM, SET_REPOS_DATA } from "./actions";
+import { SET_SEARCH_TERM, SET_REPOS_DATA, SORT_REPOS } from "./actions";
 
 const BASE_URL = `https://api.github.com`;
 
@@ -24,5 +24,15 @@ export function getReposData(searchTerm) {
         dispatch(setReposData(res.items));
       })
       .catch(err => console.log(err));
+  };
+}
+
+export function sortRepos(field, repos) {
+  const sortedRepos = repos.sort((a, b) => {
+    return a[field] - b[field];
+  });
+  return {
+    type: SORT_REPOS,
+    payload: sortedRepos
   };
 }

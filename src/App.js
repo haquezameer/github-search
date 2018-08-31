@@ -13,36 +13,14 @@ import "./App.css";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.searchRepos = this.searchRepos.bind(this);
-    this.sortBySelected = this.sortBySelected.bind(this);
-  }
-  searchRepos(query) {
-    console.log(query);
-  }
-  sortBySelected(option) {
-    console.log(option);
-    const { repos } = this.state;
-    const sortarr = repos.sort((a, b) => {
-      return a[option] - b[option];
-    });
-    console.log(sortarr);
-    this.setState({ repos: sortarr });
   }
   render() {
     return (
       <Router history={history}>
         <Provider store={store}>
           <div className="App">
-            <Route
-              exact
-              path="/"
-              render={() => <Search searchRepos={this.searchRepos} />}
-            />
-            <Route
-              exact
-              path="/results"
-              render={() => <RepoList sortBySelected={this.sortBySelected} />}
-            />
+            <Route exact path="/" render={() => <Search />} />
+            <Route exact path="/results" render={() => <RepoList />} />
             <Route
               path="/results/details/:id"
               render={props => <Details {...props} />}
