@@ -7,9 +7,7 @@ import ActionBar from "./ActionBar";
 const RepoListItem = ({ repo }) => (
   <ListGroupItem>
     <Link to={{ pathname: `/results/details/${repo.id}`, state: { repo } }}>
-      <span>
-        {repo.full_name} {repo.stargazers_count}
-      </span>
+      <span>{repo.full_name}</span>
     </Link>
   </ListGroupItem>
 );

@@ -9,32 +9,29 @@ import {
   FormGroup,
   Button
 } from "react-bootstrap";
+import { connect } from "react-redux";
+
+import { setSearchTerm } from "../actions/actioncreators";
 
 class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: "",
       disabled: true
     };
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   getValidationState() {
-    const length = this.state.query.length;
+    const length = this.props.searchTerm.length;
     if (length > 1) {
       return "success";
     } else {
       return "error";
     }
   }
-  handleChange(e) {
-    console.log(e.target.value);
-    this.setState({ query: e.target.value });
-  }
   handleSubmit(e) {
     e.preventDefault();
-    this.props.searchRepos(this.state.query);
+    this.props.searchRepos(this.props.searchTerm);
     this.props.history.push("/results");
   }
   render() {
@@ -45,8 +42,8 @@ class Search extends Component {
             <FormGroup validationState={this.getValidationState()}>
               <Col xs={9} md={8}>
                 <FormControl
-                  onChange={this.handleChange}
-                  value={this.state.query}
+                  onChange={this.props.handleChange}
+                  value={this.props.searchTerm}
                   type="text"
                   name="search"
                   placeholder="Enter repository to search for.."
@@ -55,7 +52,7 @@ class Search extends Component {
               <Col xs={3} md={4}>
                 <Button
                   type="submit"
-                  disabled={this.state.query.length > 0 ? false : true}
+                  disabled={this.props.searchTerm.length > 0 ? false : true}
                 >
                   Submit
                 </Button>
@@ -68,4 +65,15 @@ class Search extends Component {
   }
 }
 
-export default withRouter(Search);
+const mapStateToProps = state => ({ searchTerm: state.searchTerm });
+
+const mapDispatchToProps = dispatch => ({
+  handleChange(e) {
+    dispatch(setSearchTerm(e.target.value));
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Search));
