@@ -1,6 +1,8 @@
 import { SET_SEARCH_TERM, SET_REPOS_DATA, SORT_REPOS } from "./actions";
+import LocalStorage from "localstorage";
 
 const BASE_URL = `https://api.github.com`;
+const repodatalocal = new LocalStorage("repodatalocal");
 
 export function setSearchTerm(searchTerm) {
   return {
@@ -17,14 +19,22 @@ export function setReposData(repos) {
 }
 
 export function getReposData(searchTerm) {
-  return dispatch => {
-    fetch(`${BASE_URL}/search/repositories?q=${searchTerm}`)
-      .then(res => res.json())
-      .then(res => {
-        dispatch(setReposData(res.items));
-      })
-      .catch(err => console.log(err));
-  };
+  const [err, cachedres] = repodatalocal.get(searchTerm);
+  if (err) {
+    return dispatch => {
+      fetch(`${BASE_URL}/search/repositories?q=${searchTerm}`)
+        .then(res => res.json())
+        .then(res => {
+          repodatalocal.put(searchTerm, res.items);
+          dispatch(setReposData(res.items));
+        })
+        .catch(err => console.log(err));
+    };
+  } else {
+    return dispatch => {
+      dispatch(setReposData(cachedres));
+    };
+  }
 }
 
 export function sortRepos(field, repos) {
