@@ -1,34 +1,23 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 
 import Search from "./components/Search";
 import RepoList from "./components/RepoList";
 import Details from "./components/Details";
 import store from "./store";
+import history from "./history";
 
 import "./App.css";
-
-const BASE_URL = `https://api.github.com`;
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      repos: []
-    };
     this.searchRepos = this.searchRepos.bind(this);
     this.sortBySelected = this.sortBySelected.bind(this);
   }
   searchRepos(query) {
     console.log(query);
-    fetch(`${BASE_URL}/search/repositories?q=${query}`)
-      .then(res => res.json())
-      .then(res => {
-        console.log(res);
-        this.setState({ repos: res.items });
-      })
-      .catch(err => console.log(err));
   }
   sortBySelected(option) {
     console.log(option);
@@ -41,7 +30,7 @@ class App extends Component {
   }
   render() {
     return (
-      <Router>
+      <Router history={history}>
         <Provider store={store}>
           <div className="App">
             <Route
@@ -52,16 +41,11 @@ class App extends Component {
             <Route
               exact
               path="/results"
-              render={() => (
-                <RepoList
-                  repos={this.state.repos}
-                  sortBySelected={this.sortBySelected}
-                />
-              )}
+              render={() => <RepoList sortBySelected={this.sortBySelected} />}
             />
             <Route
               path="/results/details/:id"
-              render={props => <Details {...props} repos={this.state.repos} />}
+              render={props => <Details {...props} />}
             />
           </div>
         </Provider>

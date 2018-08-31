@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col, ListGroup, ListGroupItem } from "react-bootstrap";
+import { connect } from "react-redux";
 
 import ActionBar from "./ActionBar";
 
@@ -30,4 +31,6 @@ const RepoList = ({ repos, sortBySelected }) =>
     <div>Please wait..</div>
   );
 
-export default RepoList;
+const mapStateToProps = state => ({ repos: state.repos });
+
+export default connect(mapStateToProps)(RepoList);

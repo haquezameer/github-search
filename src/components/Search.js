@@ -11,7 +11,8 @@ import {
 } from "react-bootstrap";
 import { connect } from "react-redux";
 
-import { setSearchTerm } from "../actions/actioncreators";
+import { setSearchTerm, getReposData } from "../actions/actioncreators";
+import history from "../history";
 
 class Search extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class Search extends Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    this.props.searchRepos(this.props.searchTerm);
+    this.props.getApiData(this.props.searchTerm);
     this.props.history.push("/results");
   }
   render() {
@@ -70,6 +71,9 @@ const mapStateToProps = state => ({ searchTerm: state.searchTerm });
 const mapDispatchToProps = dispatch => ({
   handleChange(e) {
     dispatch(setSearchTerm(e.target.value));
+  },
+  getApiData(searchTerm) {
+    dispatch(getReposData(searchTerm));
   }
 });
 
